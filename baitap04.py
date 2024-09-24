@@ -7,7 +7,7 @@ from selenium.webdriver.support.expected_conditions import url_changes
 
 # khởi tạo webdriver
 driver = webdriver.Chrome()
-for i in range(65,67):
+for i in range(65,91):
     url = "https://en.wikipedia.org/wiki/List_of_painters_by_name_beginning_with_%22"+chr(i)+"%22"
     try:
         # mở trang
