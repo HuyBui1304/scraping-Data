@@ -29,8 +29,15 @@ for i in range(65, 91):
         # Lấy ra tất cả các thẻ <li> thuộc ul_painters
         li_tags = ul_painters.find_elements(By.TAG_NAME, "li")
 
-        # Tạo danh sách các url
-        links = [tag.find_element(By.TAG_NAME, "a").get_attribute("href") for tag in li_tags]
+        links = []
+        for tag in li_tags:
+            try:
+                links.append(tag.find_element(By.TAG_NAME, "a").get_attribute("href"))
+            except Exception as e:
+                # Nếu không tìm thấy thẻ <a> hoặc có lỗi, bỏ qua và in ra thông báo lỗi nếu cần
+                print(f"Lỗi khi lấy thông tin từ thẻ <li>: {e}")
+                continue
+
         all_links.extend(links)  # dùng extend để không tạo danh sách lồng
     except:
         print("Error")

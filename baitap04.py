@@ -7,7 +7,7 @@ from selenium.webdriver.support.expected_conditions import url_changes
 
 # khởi tạo webdriver
 driver = webdriver.Chrome()
-for i in range(65,91):
+for i in range(65,67):
     url = "https://en.wikipedia.org/wiki/List_of_painters_by_name_beginning_with_%22"+chr(i)+"%22"
     try:
         # mở trang
@@ -23,12 +23,21 @@ for i in range(65,91):
         # lay ra tat ca the <li> thuoc ul_painters
         li_tags = ul_painters.find_elements(By.TAG_NAME, "li")
 
-        # tao danh sach cac url
-        links = [tag.find_element(By.TAG_NAME, "a").get_attribute("href") for tag in li_tags]
-        # lay danh sach ten cac url
-        titles = [tag.find_element(By.TAG_NAME, "a").get_attribute("title") for tag in li_tags]
+        links = []
+        titles = []
+
+        for tag in li_tags:
+            try:
+                links.append(tag.find_element(By.TAG_NAME, "a").get_attribute("href"))
+                titles.append(tag.find_element(By.TAG_NAME, "a").get_attribute("title"))
+            except Exception as e:
+                # Nếu không tìm thấy thẻ <a> hoặc có lỗi, bỏ qua và in ra thông báo lỗi nếu cần
+                print(f"Lỗi khi lấy thông tin từ thẻ <li>: {e}")
+                continue
 
         # in ra title
+        for title in titles:
+            print(title)
         for link in links:
             print(link)
     except:
