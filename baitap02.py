@@ -19,7 +19,6 @@ tags = driver.find_elements(By.XPATH, "//a[contains(@title, 'List of painters')]
 # tạo ra danh sách các liên kết
 links= [tag.get_attribute("href") for tag in tags]
 
-
 # xuất thông tin
 for link in links:
     print(link)

@@ -34,6 +34,9 @@ for tag in li_tags:
         print(f"Lỗi khi lấy thông tin từ thẻ <li>: {e}")
         continue
 
+
+
+
 # In ra URL
 for link in links:
     print(link)
