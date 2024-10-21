@@ -80,7 +80,7 @@ musicians_df = pd.DataFrame(musicians_data)
 
 # Lưu vào file Excel
 file_name = "musicians.xlsx"
-musicians_df.to_excel(file_name, index=False)  # index=False để không lưu chỉ số
+musicians_df.to_excel(file_name, index=False)
 print('Đã lưu thành công')
 
 # Đóng trình duyệt
