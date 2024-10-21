@@ -94,12 +94,12 @@ for link in all_links:
 # IV. In thông tin
 print(d)
 
-# Đặt tên file
-file_name = 'Painters.xlsx'
+# # Đặt tên file
+# file_name = 'Painters.xlsx'
 
-# Lưu vào file Excel
-d.to_excel(file_name, index=False)  # index=False để không lưu chỉ số
-print('DataFrame is written to Excel file successfully.')
+# # Lưu vào file Excel
+# d.to_excel(file_name, index=False)  # index=False để không lưu chỉ số
+# print('DataFrame is written to Excel file successfully.')
 
-# Đóng webdriver sau khi lấy thông tin
-driver.quit()
+# # Đóng webdriver sau khi lấy thông tin
+# driver.quit()

@@ -9,20 +9,19 @@ from selenium.webdriver import ActionChains
 import time
 import pandas as pd
 
-# Đường dẫn đến file thực thi geckodriver
-gecko_path = r"C:/Users/Admin/Downloads/geckodriver.exe"
+# Đường dẫn đến file thực thi chromedriver
+chrome_path = r"/Users/buiminhhuy/Downloads/chromedriver-mac-arm64/chromedriver"  # Thêm 'chromedriver' vào đường dẫn
 
-# Khởi tởi đối tượng dịch vụ với đường geckodriver
-ser = Service(gecko_path)
+# Khởi tạo đối tượng dịch vụ với đường dẫn chromedriver
+ser = Service(executable_path=chrome_path)
 
-# Tạo tùy chọn
-options = webdriver.firefox.options.Options();
-options.binary_location = "C:/Program Files/Mozilla Firefox/firefox.exe"
-# Thiết lập firefox chỉ hiện thị giao diện
-options.headless = False
+# Tạo tùy chọn cho Chrome
+options = webdriver.ChromeOptions()
+options.headless = False  # Tắt chế độ headless để hiện giao diện Chrome nếu muốn
 
-# Khởi tạo driver
-driver = webdriver.Firefox(options=options, service=ser)
+# Khởi tạo driver cho Chrome
+driver = webdriver.Chrome(service=ser, options=options)
+
 
 # Tạo url
 url = 'https://nhathuoclongchau.com.vn/thuc-pham-chuc-nang/vitamin-khoang-chat'
@@ -61,7 +60,7 @@ for i in range(30):  # Lặp 30 lần, mỗi lần cuộn xuống một ít
 # Tạm dừng thêm vài giây để trang tải hết nội dung ở cuối trang
 time.sleep(1)
 
-# Tao cac list
+# Tạo các list
 stt = []
 ten_san_pham = []
 gia_ban = []
@@ -72,7 +71,7 @@ buttons = driver.find_elements(By.XPATH, "//button[text()='Chọn mua']")
 
 print(len(buttons))
 
-# lay tung san pham
+# Lấy từng sản phẩm
 for i, bt in enumerate(buttons, 1):
     # Quay ngược 3 lần để tìm div cha
     parent_div = bt
@@ -81,38 +80,41 @@ for i, bt in enumerate(buttons, 1):
 
     sp = parent_div
 
-    # Lat ten sp
+    # Lấy tên sản phẩm
     try:
         tsp = sp.find_element(By.TAG_NAME, 'h3').text
     except:
         tsp = ''
 
-    # Lat gia sp
+    # Lấy giá sản phẩm
     try:
         gsp = sp.find_element(By.CLASS_NAME, 'text-blue-5').text
     except:
         gsp = ''
 
-    # Lat hinh anh
+    # Lấy hình ảnh
     try:
         ha = sp.find_element(By.TAG_NAME, 'img').get_attribute('src')
     except:
         ha = ''
 
-    # Chi them vao ds neu co ten sp
-    if (len(tsp) > 0):
+    # Chỉ thêm vào danh sách nếu có tên sản phẩm
+    if len(tsp) > 0:
         stt.append(i)
         ten_san_pham.append(tsp)
         gia_ban.append(gsp)
         hinh_anh.append(ha)
 
-# Tạo df
+# Tạo dataframe
 df = pd.DataFrame({
     "STT": stt,
     "Tên sản phẩm": ten_san_pham,
     "Giá bán": gia_ban,
     "Hình ảnh": hinh_anh
-
 })
 
-df.to_excel('danh_sach_sp_3.xlsx', index=False)
+# Xuất ra file Excel
+df.to_excel('danh_sach_sp_chrome.xlsx', index=False)
+
+# Đóng trình duyệt
+driver.quit()
